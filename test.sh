@@ -6,6 +6,8 @@
 # basic settings
 degradation=$1
 model=$2
+name=background
+name1=foreground
 gpu_id=0
 exp_id=001
 
@@ -16,4 +18,13 @@ python ./codes/main.py \
   --mode test \
   --model ${model} \
   --opt test.yml \
-  --gpu_id ${gpu_id}
+  --gpu_id ${gpu_id}\
+  --name ${name}
+
+python ./codes/main.py \
+  --exp_dir ./experiments_${degradation}/${model}/${exp_id} \
+  --mode test \
+  --model ${model} \
+  --opt test1.yml \
+  --gpu_id ${gpu_id}\
+  --name ${name1}
