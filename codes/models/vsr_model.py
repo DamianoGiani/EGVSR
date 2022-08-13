@@ -118,7 +118,7 @@ class VSRModel(BaseModel):
         loss_G.backward()
         self.optim_G.step()
 
-    def infer(self, lr_data):
+    def infer(self, lr_data,name=''):
         """ Function of inference
 
             Parameters:
@@ -135,7 +135,7 @@ class VSRModel(BaseModel):
         lr_data, n_pad_front = self.pad_sequence(lr_data)
 
         # infer
-        hr_seq = self.net_G.infer_sequence(lr_data, self.device)
+        hr_seq = self.net_G.infer_sequence(lr_data, self.device,name)
         hr_seq = hr_seq[n_pad_front:, ...]
 
         return hr_seq
