@@ -142,7 +142,7 @@ def train(opt):
                         metric_calculator.display_results()
 
 
-def test(opt):
+def test(opt,name=''):
     # logging
     logger = base_utils.get_logger('base')
     if opt['verbose']:
@@ -190,7 +190,7 @@ def test(opt):
                 frm_idx = [frm_idx[0] for frm_idx in data['frm_idx']]
 
                 # infer
-                hr_seq = model.infer(lr_data)  # thwc|rgb|uint8
+                hr_seq = model.infer(lr_data,name)  # thwc|rgb|uint8
 
                 # save results (optional)
                 if opt['test']['save_res']:
@@ -289,6 +289,8 @@ if __name__ == '__main__':
                         help='size of the input frame')
     parser.add_argument('--test_speed', action='store_true',
                         help='whether to test the actual running speed')
+    parser.add_argument('--name',type=str,
+                        help='name of pickle')                    
     args = parser.parse_args()
 
 
@@ -338,7 +340,7 @@ if __name__ == '__main__':
 
         # run
         opt['is_train'] = False
-        test(opt)
+        test(opt,args.name)
 
     # ----------------- profile ----------------- #
     elif args.mode == 'profile':
