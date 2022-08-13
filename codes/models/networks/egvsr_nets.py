@@ -2,7 +2,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+import pickle
 from models.networks.base_nets import BaseSequenceGenerator, BaseSequenceDiscriminator
 from utils.net_utils import space_to_depth, backward_warp, get_upsampling_func
 from utils.data_utils import float32_to_uint8
@@ -200,8 +200,8 @@ class FRNet(BaseSequenceGenerator):
 
         # compute hr_curr
         hr_curr = self.srnet(lr_curr, space_to_depth(hr_prev_warp, self.scale))
-
-        return hr_curr
+        concres= torch.cat([lr_curr, space_to_depth(hr_prev_warp)],1)
+        return hr_curr,concres
 
     def forward_sequence(self, lr_data):
         """
@@ -256,7 +256,7 @@ class FRNet(BaseSequenceGenerator):
 
         return ret_dict
 
-    def infer_sequence(self, lr_data, device):
+    def infer_sequence(self, lr_data, device,name=''):
         """
             Parameters:
                 :param lr_data: torch.FloatTensor in shape tchw
@@ -274,18 +274,23 @@ class FRNet(BaseSequenceGenerator):
         lr_prev = torch.zeros(1, c, h, w, dtype=torch.float32).to(device)
         hr_prev = torch.zeros(
             1, c, s * h, s * w, dtype=torch.float32).to(device)
-
+        tensorlist = []
         for i in range(tot_frm):
             with torch.no_grad():
                 self.eval()
 
                 lr_curr = lr_data[i: i + 1, ...].to(device)
-                hr_curr = self.forward(lr_curr, lr_prev, hr_prev)
+                hr_curr,concres = self.forward(lr_curr, lr_prev, hr_prev) ##la domanda è cosa fare con questo concres? che è un tensore attualmente
                 lr_prev, hr_prev = lr_curr, hr_curr
-
+                tensorlist.append(concres) #######non so se devo prima fare queeze in numpy
                 hr_frm = hr_curr.squeeze(0).cpu().numpy()  # chw|rgb|uint8
 
             hr_seq.append(float32_to_uint8(hr_frm))
+        file_name = str(name)+'.pkl'
+
+        open_file = open(file_name, "wb")
+        pickle.dump(tensorlist, open_file)
+        open_file.close()
 
         return np.stack(hr_seq).transpose(0, 2, 3, 1)  # thwc
 
