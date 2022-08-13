@@ -17,15 +17,6 @@ dataset:
     filter_file: ~
     num_workers: 4
     pin_memory: true
-
-  test2:
-    name: Foreground
-    gt_seq_dir: /content/dataset/foreground/GT
-    lr_seq_dir: /content/dataset/foreground/Gaussian
-    filter_file: ~
-    num_workers: 4
-    pin_memory: true  
-
  
 # model configs
 model:
