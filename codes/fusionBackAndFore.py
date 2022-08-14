@@ -30,7 +30,7 @@ def toimage(x,i):
         print(np_arr.max())
         img3=float32_to_uint8(np_arr)
         img = cv2.cvtColor(img3, cv2.COLOR_BGR2RGB)
-        cv2.imwrite(str(i)+'.png', img)
+        cv2.imwrite('/content/results/'+str(i)+'.png', img)
 
 
 
