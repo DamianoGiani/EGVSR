@@ -200,10 +200,10 @@ class FRNet(BaseSequenceGenerator):
 
         # compute hr_curr
         hr_curr = self.srnet(lr_curr, space_to_depth(hr_prev_warp, self.scale))
-        concres= torch.cat([lr_curr, space_to_depth(hr_prev_warp)],1)
+        concres= (hr_prev_warp)
         return hr_curr,concres
 
-    def forward_sequence(self, lr_data):
+    def forward_sequence(self, lr_data,name=''):
         """
             Parameters:
                 :param lr_data: lr data in shape ntchw
@@ -215,6 +215,7 @@ class FRNet(BaseSequenceGenerator):
         # calculate optical flows
         lr_prev = lr_data[:, :-1, ...].reshape(n * (t - 1), c, lr_h, lr_w)
         lr_curr = lr_data[:, 1:, ...].reshape(n * (t - 1), c, lr_h, lr_w)
+        
         lr_flow = self.fnet(lr_curr, lr_prev)  # n*(t-1),2,h,w
 
         # upsample lr flows
@@ -275,11 +276,13 @@ class FRNet(BaseSequenceGenerator):
         hr_prev = torch.zeros(
             1, c, s * h, s * w, dtype=torch.float32).to(device)
         tensorlist = []
+        lr=[]
         for i in range(tot_frm):
             with torch.no_grad():
                 self.eval()
 
                 lr_curr = lr_data[i: i + 1, ...].to(device)
+                lr.append(lr_curr)
                 hr_curr,concres = self.forward(lr_curr, lr_prev, hr_prev) ##la domanda è cosa fare con questo concres? che è un tensore attualmente
                 lr_prev, hr_prev = lr_curr, hr_curr
                 tensorlist.append(concres) #######non so se devo prima fare queeze in numpy
@@ -292,6 +295,11 @@ class FRNet(BaseSequenceGenerator):
         pickle.dump(tensorlist, open_file)
         open_file.close()
 
+        file_name1 = str(name)+'LR.pkl'
+
+        open_file = open(file_name1, "wb")
+        pickle.dump(lr, open_file)
+        open_file.close()
         return np.stack(hr_seq).transpose(0, 2, 3, 1)  # thwc
 
 
