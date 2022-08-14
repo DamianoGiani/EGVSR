@@ -4,7 +4,7 @@ import pickle
 import torch.nn.functional as F
 from SRNET import BicubicUpsample
 import warnings
-from functools import partial
+from functools import partialp
 from collections import OrderedDict
 import os.path as osp
 import cv2
@@ -25,12 +25,11 @@ def float32_to_uint8(inputs):
 def toimage(x,i):
     with torch.no_grad():
         #x = torch.sigmoid(x)
-        np_arr=x.squeeze(0).cpu().numpy().transpose(1, 2, 0)
-        print(np_arr.min())
-        print(np_arr.max())
+        np_arr=x.squeeze(0).cpu().numpy().transpose(1, 2, 0)        
         img3=float32_to_uint8(np_arr)
         img = cv2.cvtColor(img3, cv2.COLOR_BGR2RGB)
-        cv2.imwrite('/content/results/'+str(i)+'.png', img)
+        cv2.imwrite('/content/results/frame'+str(i)+'.png', img)
+        print('frame'+str(i)+'generated')
 
 
 
@@ -115,9 +114,9 @@ class SRNet(nn.Module):
         """
 
         out = self.conv_in(x)
-        print('ciao')
+        
         out = self.resblocks(out)
-        print('come va')
+        
         out = self.conv_up_cheap(out)
         out = self.conv_out(out)
         # out += self.upsample_func(lr_curr)
@@ -330,8 +329,8 @@ with torch.no_grad():
     for i in range(len(lr1)):
         v = torch.add(lr1[i], lr2[i])
         k = torch.add(space_to_depth(hr_warp1[i]), space_to_depth(hr_warp2[i]))
-        z = torch.cat([v, k], 1)
-        print(z.size())
+        z = torch.cat([v, k], 1)        
         z = z.cuda()
         hr_curr = frnet(z)
         toimage(hr_curr,i)
+    print('all image recostructed')        
