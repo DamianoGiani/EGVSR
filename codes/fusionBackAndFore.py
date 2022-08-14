@@ -4,7 +4,7 @@ import pickle
 import torch.nn.functional as F
 from SRNET import BicubicUpsample
 import warnings
-from functools import partialp
+from functools import partial
 from collections import OrderedDict
 import os.path as osp
 import cv2
