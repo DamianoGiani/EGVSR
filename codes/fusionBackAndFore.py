@@ -23,18 +23,12 @@ def float32_to_uint8(inputs):
 
 
 def toimage(x,i):
-    with torch.no_grad():
-        #x = torch.sigmoid(x)
-        np_arr=x.squeeze(0).cpu().numpy().transpose(1, 2, 0)        
+    with torch.no_grad():        
+        np_arr=x.squeeze(0).cpu().numpy().transpose(1, 2, 0)       
         img3=float32_to_uint8(np_arr)
         img = cv2.cvtColor(img3, cv2.COLOR_BGR2RGB)
         cv2.imwrite('/content/results/frame'+str(i)+'.png', img)
-        print('frame'+str(i)+'generated')
-
-
-
-
-
+        print('frame'+str(i)+'recostructed)
 
 def load_checkpoint(fpath):
     if fpath is None:
@@ -116,7 +110,7 @@ class SRNet(nn.Module):
         out = self.conv_in(x)
         
         out = self.resblocks(out)
-        
+       
         out = self.conv_up_cheap(out)
         out = self.conv_out(out)
         # out += self.upsample_func(lr_curr)
@@ -241,9 +235,9 @@ class FRNet(BaseSequenceGenerator):
         """
 
         out = self.srnet.conv_in(x)
-        print('ciao')
+        
         out = self.srnet.resblocks(out)
-        print('come va')
+       
         out = self.srnet.conv_up_cheap(out)
         out = self.srnet.conv_out(out)
         # out += self.upsample_func(lr_curr)
@@ -315,22 +309,26 @@ def space_to_depth(x, scale=4):
 with torch.no_grad():
     frnet = FRNet(3, 3, 64, 16, 4)
     upsample_func = BicubicUpsample(scale_factor=4)
-    load_pretrained_weights(frnet, 'G_iter400000.pth')
-    open_file = open('sample (1).pkl', "rb")
+    load_pretrained_weights(frnet, '/content/EGVSR/pretrained_models/G_iter400000.pth')
+    open_file = open('/content/EGVSR/backgroundLR.pkl', "rb")
     lr1 = pickle.load(open_file)
-    open_file1 = open('sample (1).pkl', "rb")
+    open_file1 = open('/content/EGVSR/foregroundLR.pkl', "rb")
     lr2 = pickle.load(open_file1)
-    open_file2 = open('sample (1).pkl', "rb")
+    open_file2 = open('/content/EGVSR/background.pkl', "rb")
     hr_warp1 = pickle.load(open_file2)
-    open_file3 = open('sample (1).pkl', "rb")
+    open_file3 = open('/content/EGVSR/foreground.pkl', "rb")
     hr_warp2 = pickle.load(open_file3)
     if torch.cuda.is_available():
         frnet.cuda()
     for i in range(len(lr1)):
+       
         v = torch.add(lr1[i], lr2[i])
+        
         k = torch.add(space_to_depth(hr_warp1[i]), space_to_depth(hr_warp2[i]))
-        z = torch.cat([v, k], 1)        
+       
+        z = torch.cat([v, k], 1)
+       
         z = z.cuda()
         hr_curr = frnet(z)
-        toimage(hr_curr,i)
-    print('all image recostructed')        
+        toimage(hr_curr,i)  
+    print('all images recostructed')
