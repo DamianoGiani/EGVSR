@@ -309,7 +309,7 @@ def space_to_depth(x, scale=4):
 with torch.no_grad():
     frnet = FRNet(3, 3, 64, 16, 4)
     upsample_func = BicubicUpsample(scale_factor=4)
-    load_pretrained_weights(frnet, '/content/EGVSR/pretrained_models/G_iter400000.pth')
+    load_pretrained_weights(frnet, '/content/EGVSR/pretrained_models/MyG_iter12000.pth')
     open_file = open('/content/EGVSR/backgroundLR.pkl', "rb")
     lr1 = pickle.load(open_file)
     open_file1 = open('/content/EGVSR/foregroundLR.pkl', "rb")
