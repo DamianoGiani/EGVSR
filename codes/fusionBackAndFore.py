@@ -311,7 +311,7 @@ with torch.no_grad():
     a=(sys.argv)    
     frnet = FRNet(3, 3, 64, 16, 4)
     upsample_func = BicubicUpsample(scale_factor=4)
-    if a==['codes/fusionBackAndFore.py', '001']:
+    if a[1]=='001':
       load_pretrained_weights(frnet, '/content/EGVSR/pretrained_models/MyG_iter12000.pth')
     else: load_pretrained_weights(frnet, '/content/EGVSR/pretrained_models/EGVSR_iter420000.pth')
     open_file = open('/content/EGVSR/backgroundLR.pkl', "rb")
