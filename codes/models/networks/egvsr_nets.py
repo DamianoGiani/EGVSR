@@ -289,7 +289,7 @@ class FRNet(BaseSequenceGenerator):
                 hr_frm = hr_curr.squeeze(0).cpu().numpy()  # chw|rgb|uint8
 
             hr_seq.append(float32_to_uint8(hr_frm))
-        if str(name)!='':    
+        if str(name)!='None':    
             file_name = str(name)+'.pkl'
 
             open_file = open(file_name, "wb")
