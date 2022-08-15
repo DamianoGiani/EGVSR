@@ -28,3 +28,10 @@ python ./codes/main.py \
   --opt test1.yml \
   --gpu_id ${gpu_id}\
   --name ${name1}
+
+python ./codes/main.py \
+  --exp_dir ./experiments_${degradation}/${model}/${exp_id} \
+  --mode test \
+  --model ${model} \
+  --opt test2.yml \
+  --gpu_id ${gpu_id}\
