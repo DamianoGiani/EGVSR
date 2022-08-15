@@ -289,17 +289,18 @@ class FRNet(BaseSequenceGenerator):
                 hr_frm = hr_curr.squeeze(0).cpu().numpy()  # chw|rgb|uint8
 
             hr_seq.append(float32_to_uint8(hr_frm))
-        file_name = str(name)+'.pkl'
+        if str(name)!='':    
+            file_name = str(name)+'.pkl'
 
-        open_file = open(file_name, "wb")
-        pickle.dump(tensorlist, open_file)
-        open_file.close()
+            open_file = open(file_name, "wb")
+            pickle.dump(tensorlist, open_file)
+            open_file.close()
 
-        file_name1 = str(name)+'LR.pkl'
+            file_name1 = str(name)+'LR.pkl'
 
-        open_file = open(file_name1, "wb")
-        pickle.dump(lr, open_file)
-        open_file.close()
+            open_file = open(file_name1, "wb")
+            pickle.dump(lr, open_file)
+            open_file.close()
         return np.stack(hr_seq).transpose(0, 2, 3, 1)  # thwc
 
 
