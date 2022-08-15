@@ -29,7 +29,7 @@ model:
     out_nc: 3
     nf: 64
     nb: 10
-    load_path: pretrained_models/EGVSR_iter420000.pth
+    load_path: pretrained_models/MyG_iter12000.pth
 
 
 # test configs
