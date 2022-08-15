@@ -36,7 +36,7 @@ model:
 test:
   # whether to save the SR results
   save_res: true
-  res_dir: /content/results/foreground
+  res_dir: /content/results
 
   # temporal padding
   padding_mode: reflect
