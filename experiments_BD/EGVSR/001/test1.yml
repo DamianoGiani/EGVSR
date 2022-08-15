@@ -36,25 +36,9 @@ model:
 test:
   # whether to save the SR results
   save_res: true
-  res_dir: results
+  res_dir: /content/results/foreground
 
   # temporal padding
   padding_mode: reflect
   num_pad_front: 5
 
-# metric configs
-metric:
-  PSNR:
-    colorspace: y
-    mult: 1.0
-
-  LPIPS:
-    model: net-lin
-    net: alex
-    colorspace: rgb
-    spatial: false
-    version: 0.1
-    mult: 1.0
-
-  tOF:
-    mult: 1.0
