@@ -27,8 +27,8 @@ def toimage(x,i):
         np_arr=x.squeeze(0).cpu().numpy().transpose(1, 2, 0)       
         img3=float32_to_uint8(np_arr)
         img = cv2.cvtColor(img3, cv2.COLOR_BGR2RGB)
-        cv2.imwrite('/content/results/frame'+str(i)+'.png', img)
-        print('frame '+str(i)+'recostructed')
+        cv2.imwrite('/content/results/MyFirstMod/frame'+str(i)+'.png', img)
+        print('frame '+str(i)+' recostructed')
 
 def load_checkpoint(fpath):
     if fpath is None:
