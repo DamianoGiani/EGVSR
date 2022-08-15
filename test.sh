@@ -6,10 +6,11 @@
 # basic settings
 degradation=$1
 model=$2
+exp_id=$3
 name=background
 name1=foreground
 gpu_id=0
-exp_id=001
+
 
 
 # run
