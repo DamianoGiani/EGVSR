@@ -37,4 +37,4 @@ python ./codes/main.py \
   --opt test2.yml \
   --gpu_id ${gpu_id}\
 
-python ./codes/fusionBackAndFore.py exp_id
+python ./codes/fusionBackAndFore.py ${exp_id}
