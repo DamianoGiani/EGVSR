@@ -38,3 +38,4 @@ python ./codes/main.py \
   --gpu_id ${gpu_id}\
 
 python ./codes/fusionBackAndFore.py ${exp_id}
+python ./codes/secondMethod.py ${exp_id}
