@@ -8,8 +8,7 @@ def secondMethod(path1,path2):
   images1 = [file for file in sorted(os.listdir(path1)) if file.endswith(('png'))]
   images2 = [file for file in sorted(os.listdir(path2)) if file.endswith(('png'))]
   count=0
-  for i in range(len(images1)):
-      print(images1[i])
+  for i in range(len(images1)):      
       imb = cv2.imread(path1+'/'+images1[i])
       imf = cv2.imread(path2+'/'+images2[i], 1)      
       #imb[imb<30]=0
