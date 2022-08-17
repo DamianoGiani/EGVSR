@@ -38,7 +38,5 @@ test:
   save_res: true
   res_dir: /content/results
 
-  # temporal padding
-  padding_mode: reflect
-  num_pad_front: 5
+
 
