@@ -63,7 +63,7 @@ def retrieve_files(dir, suffix='png|jpg'):
 
     file_lst = []
     retrieve_files_recursively(dir, file_lst)
-    file_lst.sort()
+    file_lst.sort(key=os.path.getctime)    
 
     return file_lst
 
