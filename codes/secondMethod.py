@@ -22,6 +22,6 @@ def secondMethod(path1,path2):
 a=(sys.argv)  
 if a[1]=='001':
   path1='/content/results/Background/MyG_iter12000/background'
-else path1='/content/results/Background/EGVSR_iter420000/background'
+else: path1='/content/results/Background/EGVSR_iter420000/background'
 path2='/content/results/Foreground/EGVSR_iter420000/foreground/'
 secondMethod(path1,path2)      
