@@ -23,12 +23,12 @@ def float32_to_uint8(inputs):
     return np.uint8(np.clip(np.round(inputs * 255), 0, 255))
 
 
-def toimage(x,i):
+def toimage(x,i,pathRes):
     with torch.no_grad():        
         np_arr=x.squeeze(0).cpu().numpy().transpose(1, 2, 0)       
         img3=float32_to_uint8(np_arr)
         img = cv2.cvtColor(img3, cv2.COLOR_BGR2RGB)
-        cv2.imwrite('/content/results/MyFirstMod/frame'+str(i)+'.png', img)
+        cv2.imwrite(pathRes+str(i)+'.png', img)
         print('frame '+str(i)+' recostructed')
 
 def load_checkpoint(fpath):
@@ -313,7 +313,10 @@ with torch.no_grad():
     upsample_func = BicubicUpsample(scale_factor=4)
     if a[1]=='001':
       load_pretrained_weights(frnet, '/content/EGVSR/pretrained_models/MyG_iter12000.pth')
-    else: load_pretrained_weights(frnet, '/content/EGVSR/pretrained_models/EGVSR_iter420000.pth')
+      pathRes='/content/results/MyFirstMod/MyG_iter12000/frame'
+    else: 
+      load_pretrained_weights(frnet, '/content/EGVSR/pretrained_models/EGVSR_iter420000.pth')
+      pathRes='/content/results/MyFirstMod/EGVSR_iter420000/frame'
     open_file = open('/content/EGVSR/backgroundLR.pkl', "rb")
     lr1 = pickle.load(open_file)
     open_file1 = open('/content/EGVSR/foregroundLR.pkl', "rb")
@@ -322,6 +325,7 @@ with torch.no_grad():
     hr_warp1 = pickle.load(open_file2)
     open_file3 = open('/content/EGVSR/foreground.pkl', "rb")
     hr_warp2 = pickle.load(open_file3)
+    
     if torch.cuda.is_available():
         frnet.cuda()
     for i in range(len(lr1)):
@@ -334,5 +338,5 @@ with torch.no_grad():
        
         z = z.cuda()
         hr_curr = frnet(z)
-        toimage(hr_curr,i)  
+        toimage(hr_curr,i,pathRes)  
     print('all images recostructed')
