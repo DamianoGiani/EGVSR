@@ -2,9 +2,7 @@ import sys
 import os
 import cv2
 
-def secondMethod(path1,path2):
-  a=(sys.argv)
-  
+def secondMethod(path1,path2):  
   images1 = [file for file in sorted(os.listdir(path1)) if file.endswith(('png'))]
   images2 = [file for file in sorted(os.listdir(path2)) if file.endswith(('png'))]
   count=0
@@ -23,4 +21,5 @@ if a[1]=='001':
   path1='/content/results/Background/MyG_iter12000/background'
 else: path1='/content/results/Background/EGVSR_iter420000/background'
 path2='/content/results/Foreground/EGVSR_iter420000/foreground/'
+print(path1)
 secondMethod(path1,path2)      
