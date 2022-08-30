@@ -10,6 +10,7 @@ import os.path as osp
 import cv2
 import numpy as np
 import sys
+import time
 
 torch.cuda.empty_cache()
 
@@ -29,7 +30,7 @@ def toimage(x,i,pathRes):
         img3=float32_to_uint8(np_arr)
         img = cv2.cvtColor(img3, cv2.COLOR_BGR2RGB)
         cv2.imwrite(pathRes+str(i)+'.png', img)
-        print('frame '+str(i)+' recostructed')
+        #print('frame '+str(i)+' recostructed')
 
 def load_checkpoint(fpath):
     if fpath is None:
@@ -328,6 +329,7 @@ with torch.no_grad():
     
     if torch.cuda.is_available():
         frnet.cuda()
+    start_time = time.time()
     for i in range(len(lr1)):
        
         v = torch.add(lr1[i], lr2[i])
@@ -339,4 +341,5 @@ with torch.no_grad():
         z = z.cuda()
         hr_curr = frnet(z)
         toimage(hr_curr,i,pathRes)  
+    print("--- %s seconds ---" % (time.time() - start_time))
     print('all images recostructed')
