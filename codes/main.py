@@ -144,6 +144,7 @@ def train(opt):
 
 def test(opt,name=''):
     # logging
+    start_time = time.time()
     logger = base_utils.get_logger('base')
     if opt['verbose']:
         logger.info('{} Configurations {}'.format('=' * 20, '=' * 20))
@@ -224,7 +225,7 @@ def test(opt,name=''):
     # logging
     logger.info('Finish testing')
     logger.info('=' * 40)
-
+    print("--- %s seconds ---" % (time.time() - start_time))
 
 def profile(opt, lr_size, test_speed=False):
     # logging
