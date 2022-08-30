@@ -307,11 +307,14 @@ def space_to_depth(x, scale=4):
 
     return output
 
-
+device = cuda.get_current_device()
+device.reset()
 with torch.no_grad():
     a=(sys.argv)    
     frnet = FRNet(3, 3, 64, 16, 4)
     upsample_func = BicubicUpsample(scale_factor=4)
+    if torch.cuda.is_available():
+        frnet.cuda() 
     if a[1]=='001':
       load_pretrained_weights(frnet, '/content/EGVSR/pretrained_models/MyG_iter12000.pth')
       pathRes='/content/results/MyFirstMod/MyG_iter12000/frame'
@@ -327,8 +330,7 @@ with torch.no_grad():
     open_file3 = open('/content/EGVSR/foreground.pkl', "rb")
     hr_warp2 = pickle.load(open_file3)
     
-    if torch.cuda.is_available():
-        frnet.cuda()
+    
     start_time = time.time()
     for i in range(len(lr1)):
        
