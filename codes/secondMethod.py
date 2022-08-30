@@ -1,6 +1,7 @@
 import sys
 import os
 import cv2
+import time
 
 def secondMethod(path1,path2,pathRes):
   a=(sys.argv)
@@ -28,4 +29,6 @@ else:
   pathRes='/content/results/MySecondMod/EGVSR_iter420000/frame%d.png'
   path2='/content/results/Foreground/EGVSR_iter420000/foreground/'
 
+start_time = time.time()  
 secondMethod(path1,path2,pathRes)   
+print("--- %s seconds ---" % (time.time() - start_time))
