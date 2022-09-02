@@ -1,3 +1,13 @@
+This is the code need to test the modification of EGVSR model described below.
+The code is written to be run directly on colab at this link:
+
+
+
+
+
+
+
+
 # EGVSR-PyTorch
 [GitHub](https://github.com/Thmen/EGVSR) **|** [Gitee码云](https://gitee.com/Digital-Design/EGVSR)
 
