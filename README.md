@@ -1,4 +1,4 @@
-#Mod of EGVSR MODEL
+# Mod of EGVSR MODEL
 This is the code need to test the modification of EGVSR model described below.
 The code is written to be run directly on colab at this link:
 
