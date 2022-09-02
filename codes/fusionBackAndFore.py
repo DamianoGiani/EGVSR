@@ -11,6 +11,7 @@ import cv2
 import numpy as np
 import sys
 import time
+from numba import cuda
 
 torch.cuda.empty_cache()
 
