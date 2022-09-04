@@ -1,5 +1,5 @@
 # Mod of EGVSR MODEL
-This is the required code to test the changes I made of EGVSR model described below.
+This is the required code to test the changes I made of EGVSR model.
 The code is written to be run directly on colab at this link:
 [**VisualAndMultimediaRecognition.ipynb**](https://github.com/DamianoGiani/EGVSR/blob/master/VisualAndMultimedia.ipynb).
 
