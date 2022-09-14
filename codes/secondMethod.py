@@ -12,8 +12,8 @@ def secondMethod(path1,path2,pathRes):
   for i in range(len(images1)):      
       imb = cv2.imread(path1+'/'+images1[i])
       imf = cv2.imread(path2+'/'+images2[i], 1)      
-      #imb[imb<30]=0
-      imf[imf<25]=0
+      imb[imb<25]=0
+      #imf[imf<25]=0
       imtot=imb+imf
       cv2.imwrite(pathRes % count, imtot)    
       count += 1
