@@ -317,7 +317,7 @@ with torch.no_grad():
     if torch.cuda.is_available():
         frnet.cuda() 
     if a[1]=='001':
-      load_pretrained_weights(frnet, '/content/EGVSR/pretrained_models/MyG_iter12000.pth')
+      load_pretrained_weights(frnet, '/content/EGVSR/pretrained_models/EGVSR_iter12000.pth')
       pathRes='/content/results/MyFirstMod/MyG_iter12000/frame'
     else: 
       load_pretrained_weights(frnet, '/content/EGVSR/pretrained_models/EGVSR_iter420000.pth')
@@ -346,3 +346,4 @@ with torch.no_grad():
         toimage(hr_curr,i,pathRes)  
     print("--- %s seconds ---" % (time.time() - start_time))
     print('all images recostructed')
+
