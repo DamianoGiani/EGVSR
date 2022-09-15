@@ -21,9 +21,9 @@ def secondMethod(path1,path2,pathRes):
 
 a=(sys.argv)  
 if a[1]=='001':
-  path1='/content/results/Background/MyG_iter12000/background'
+  path1='/content/results/Background/EGVSR_iter12000back/background'
   pathRes='/content/results/MySecondMod/MyG_iter12000/frame%d.png'
-  path2='/content/results/Foreground/MyG_iter12000/foreground/'
+  path2='/content/results/Foreground/EGVSR_iter12000fore/foreground/'
 else: 
   path1='/content/results/Background/EGVSR_iter420000/background'
   pathRes='/content/results/MySecondMod/EGVSR_iter420000/frame%d.png'
