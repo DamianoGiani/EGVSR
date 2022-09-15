@@ -320,8 +320,8 @@ with torch.no_grad():
       load_pretrained_weights(frnet, '/content/EGVSR/pretrained_models/EGVSR_iter12000.pth')
       pathRes='/content/results/MyFirstMod/MyG_iter12000/frame'
     else: 
-      load_pretrained_weights(frnet, '/content/EGVSR/pretrained_models/EGVSR_iter420000.pth')
-      pathRes='/content/results/MyFirstMod/EGVSR_iter420000/frame'
+      load_pretrained_weights(frnet, '/content/EGVSR/pretrained_models/EGVSR_iter12000.pth')
+      pathRes='/content/results/MyFirstMod/EGVSR_iter12000/frame'
     open_file = open('/content/EGVSR/backgroundLR.pkl', "rb")
     lr1 = pickle.load(open_file)
     open_file1 = open('/content/EGVSR/foregroundLR.pkl', "rb")
