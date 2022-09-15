@@ -203,6 +203,21 @@ class FRNet(BaseSequenceGenerator):
         concres= (hr_prev_warp)
         return hr_curr,concres
 
+    def forwardbis(self, x):
+        """ lr_curr: the current lr data in shape nchw
+            hr_prev_tran: the previous transformed hr_data in shape n(4*4*c)hw
+        """
+
+        out = self.srnet.conv_in(x)
+        
+        out = self.srnet.resblocks(out)
+       
+        out = self.srnet.conv_up_cheap(out)
+        out = self.srnet.conv_out(out)
+        # out += self.upsample_func(lr_curr)
+
+        return out
+
     def forward_sequence(self, lr_data,name=''):
         """
             Parameters:
@@ -265,6 +280,15 @@ class FRNet(BaseSequenceGenerator):
 
                 :return hr_seq: uint8 np.ndarray in shape tchw
         """
+        if str(name)=='tot':
+          open_file = open('/content/EGVSR/backgroundLR.pkl', "rb")
+          lr1 = pickle.load(open_file)
+          open_file1 = open('/content/EGVSR/foregroundLR.pkl', "rb")
+          lr2 = pickle.load(open_file1)
+          open_file2 = open('/content/EGVSR/background.pkl', "rb")
+          hr_warp1 = pickle.load(open_file2)
+          open_file3 = open('/content/EGVSR/foreground.pkl', "rb")
+          hr_warp2 = pickle.load(open_file3)
 
         # setup params
         tot_frm, c, h, w = lr_data.size()
@@ -276,20 +300,29 @@ class FRNet(BaseSequenceGenerator):
         hr_prev = torch.zeros(
             1, c, s * h, s * w, dtype=torch.float32).to(device)
         tensorlist = []
-        lr=[]
+        lr=[]        
         for i in range(tot_frm):
             with torch.no_grad():
                 self.eval()
-
-                lr_curr = lr_data[i: i + 1, ...].to(device)
-                lr.append(lr_curr)
-                hr_curr,concres = self.forward(lr_curr, lr_prev, hr_prev) ##la domanda è cosa fare con questo concres? che è un tensore attualmente
-                lr_prev, hr_prev = lr_curr, hr_curr
-                tensorlist.append(concres) #######non so se devo prima fare queeze in numpy
+                if str(name)=='tot':                  
+                  v = torch.add(lr1[i], lr2[i])
+          
+                  k = torch.add(space_to_depth(hr_warp1[i]), space_to_depth(hr_warp2[i]))
+        
+                  z = torch.cat([v, k], 1)
+        
+                  z = z.cuda()
+                  hr_curr = self.forwardbis(z)
+                else:
+                  lr_curr = lr_data[i: i + 1, ...].to(device)
+                  lr.append(lr_curr)
+                  hr_curr,concres = self.forward(lr_curr, lr_prev, hr_prev) ##la domanda è cosa fare con questo concres? che è un tensore attualmente
+                  lr_prev, hr_prev = lr_curr, hr_curr
+                  tensorlist.append(concres) #######non so se devo prima fare queeze in numpy
                 hr_frm = hr_curr.squeeze(0).cpu().numpy()  # chw|rgb|uint8
 
             hr_seq.append(float32_to_uint8(hr_frm))
-        if str(name)!='None':    
+        if str(name)!='None'and str(name)!='tot' :    
             file_name = str(name)+'.pkl'
 
             open_file = open(file_name, "wb")
