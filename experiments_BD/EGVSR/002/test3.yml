@@ -1,0 +1,39 @@
+# basic configs
+scale: 4
+manual_seed: 0
+verbose: false
+
+
+# dataset configs
+dataset:
+  degradation:
+    type: BD
+    sigma: 1.5
+
+  test3:
+    name: FirstMethod
+    gt_seq_dir: /content/dataset/full/GT
+    lr_seq_dir: /content/dataset/full/Gaussian
+    filter_file: ~
+    num_workers: 4
+    pin_memory: true 
+
+ 
+# model configs
+model:
+  name: FRVSR
+
+  generator:
+    name: EGVSR  # efficient GAN-based generator
+    in_nc: 3
+    out_nc: 3
+    nf: 64
+    nb: 10
+    load_path: pretrained_models/EGVSR_iter12000.pth
+
+
+# test configs
+test:
+  # whether to save the SR results
+  save_res: true
+  res_dir: /content/results
