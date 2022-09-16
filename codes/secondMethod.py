@@ -2,6 +2,7 @@ import sys
 import os
 import cv2
 import time
+import os
 
 def secondMethod(path1,path2,pathRes):
   a=(sys.argv)
@@ -32,3 +33,7 @@ else:
 start_time = time.time()  
 secondMethod(path1,path2,pathRes)   
 print("--- %s seconds ---" % (time.time() - start_time))
+os.remove('/content/EGVSR/background.pkl')
+os.remove('/content/EGVSR/backgroundLR.pkl')
+os.remove('/content/EGVSR/foreground.pkl')
+os.remove('/content/EGVSR/foregroundLR.pkl')
