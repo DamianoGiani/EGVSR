@@ -26,9 +26,9 @@ if a[1]=='001':
   pathRes='/content/results/MySecondMod/MyG_iter12000/frame%d.png'
   path2='/content/results/Foreground/EGVSR_iter12000fore/foreground/'
 else: 
-  path1='/content/results/Background/EGVSR_iter12000/background'
-  pathRes='/content/results/MySecondMod/EGVSR_iter12000/frame%d.png'
-  path2='/content/results/Foreground/EGVSR_iter12000/foreground/'
+  path1='/content/results/Background/EGVSR_iter12000B/background'
+  pathRes='/content/results/MySecondMod/EGVSR_iter12000B/frame%d.png'
+  path2='/content/results/Foreground/EGVSR_iter12000B/foreground/'
 
 start_time = time.time()  
 secondMethod(path1,path2,pathRes)   
