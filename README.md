@@ -1,5 +1,5 @@
 # Mod of EGVSR MODEL
-This is the required code to test the changes I made of EGVSR model.
+This is the code needed to test the changes made to the EGVSR model.
 
 The description of the changes I made to the model are shown in this report:[**VisualAndMultimediaRecognition.pdf**](https://github.com/DamianoGiani/EGVSR/blob/master/VisualAndMultimediaRecognition.pdf) and at this presentation [**VisualAndMultimediaRecognitionPresentation.ppt**](https://github.com/DamianoGiani/EGVSR/blob/master/PresentazioneVisualAndMultimediaExams.pptx)
 
